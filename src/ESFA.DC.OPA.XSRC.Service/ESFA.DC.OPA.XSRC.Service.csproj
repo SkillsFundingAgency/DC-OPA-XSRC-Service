@@ -16,12 +16,9 @@
   <ItemGroup>
     <PackageReference Include="ESFA.DC.OPA.XSRC.Model" Version="0.1.0-beta0001" />
     <PackageReference Include="ESFA.DC.OPA.XSRC.Model.Interface" Version="0.1.0-beta0001" />
+    <PackageReference Include="ESFA.DC.OPA.XSRC.Service.Interface" Version="0.1.0-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Interfaces" Version="0.1.1-beta0001" />
     <PackageReference Include="ESFA.DC.Serialization.Xml" Version="0.1.1-beta0001" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ESFA.DC.OPA.XSRC.Service.Interface\ESFA.DC.OPA.XSRC.Service.Interface.csproj" />
   </ItemGroup>
 
   <ItemGroup>
