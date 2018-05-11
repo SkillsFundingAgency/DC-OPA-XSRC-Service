@@ -150,6 +150,116 @@ namespace ESFA.DC.OPA.XSRC.Service.Tests
             child.Select(c => c.Children.Count()).Should().BeEquivalentTo(1);
         }
 
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Global Attributes Exist"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_GlobalAttributes_Exist()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var global = builder.GlobalEntity(model);
+
+            // ASSERT
+            global.GlobalEntity.Attributes.Select(a => a.PublicName).Should().NotBeNullOrEmpty();
+        }
+
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Global Attributes Correct"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_GlobalAttributes_Correct()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var global = builder.GlobalEntity(model);
+
+            // ASSERT
+            var attrobutes = global.GlobalEntity.Attributes.Select(a => a.PublicName).ToList();
+
+            attrobutes.Select(a => a).Should().BeEquivalentTo("Version");
+        }
+
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Global Attributes Count Correct"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_GlobalAttributes_CountCorrect()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var global = builder.GlobalEntity(model);
+
+            // ASSERT
+            var attrobutes = global.GlobalEntity.Attributes.Select(a => a.PublicName).ToList();
+
+            attrobutes.Count.Should().Be(1);
+        }
+
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Child Attributes Exist"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_ChildAttributes_Exist()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var child = builder.GetChildren("global", model);
+
+            // ASSERT
+            child.Select(p => p.Attributes.Select(a => a.PublicName)).Should().NotBeNullOrEmpty();
+        }
+
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Child Attributes Correct"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_ChildAttributes_Correct()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var child = builder.GetChildren("global", model);
+
+            // ASSERT
+            var attributes = child.SelectMany(p => p.Attributes.Select(a => a.PublicName)).ToList();
+
+            attributes.Should().BeEquivalentTo(CustomerAttributes());
+        }
+
+        /// <summary>
+        /// Return Xsrc Entity Model from XSRC Input
+        /// </summary>
+        [Fact(DisplayName = "XSRC EntityBuilder - Child Attributes Count Correct"), Trait("XSRC Model Entity", "Unit")]
+        public void XSRCEntityBuilder_ChildAttributes_CountCorrect()
+        {
+            // ARRANGE
+            var builder = new XsrcEntityBuilder(@"Rulebase\Inputs.xsrc");
+
+            // ACT
+            var model = builder.Deserialize();
+            var child = builder.GetChildren("global", model);
+
+            // ASSERT
+            var attributes = child.SelectMany(p => p.Attributes.Select(a => a.PublicName)).ToList();
+
+            attributes.Count.Should().Be(5);
+        }
+
         #endregion
 
         #region Test Helpers
@@ -161,6 +271,18 @@ namespace ESFA.DC.OPA.XSRC.Service.Tests
                 null,
                 "customer",
                 "employer",
+            };
+        }
+
+        private string[] CustomerAttributes()
+        {
+            return new string[]
+            {
+                "CustomerAlive",
+                "CustomerDOB",
+                "CustomerFunds",
+                "CustomerID",
+                "CustomerName",
             };
         }
 
